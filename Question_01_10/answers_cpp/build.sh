@@ -1,1 +1,1 @@
-g++ $(pkg-config --cflags --libs opencv) main.cpp -o test
+g++ $(pkg-config --cflags --libs opencv) -std=c++11 main.cpp -o test
