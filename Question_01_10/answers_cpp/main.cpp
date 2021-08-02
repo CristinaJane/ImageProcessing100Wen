@@ -33,7 +33,8 @@ cv::Mat channel_swap(cv::Mat img) {
 int main(int argc, const char *argv[]) {
     // read image
     cout << "In" << endl;
-    cv::Mat img = cv::imread("/Users/bessliuqian/Documents/liuqian的个人学习空间/ImageProcessing100Wen/assets/imori.jpg", cv::IMREAD_COLOR);
+    cv::Mat img = cv::imread("/Users/bessliuqian/Documents/liuqian的个人学习空间/ImageProcessing100Wen/assets/imori.jpg",
+                             cv::IMREAD_COLOR);
     cout << "Img width = " << img.cols << endl;
     cout << "Img height = " << img.rows << endl;
 
@@ -42,7 +43,8 @@ int main(int argc, const char *argv[]) {
     cout << "Out width = " << out.cols << endl;
     cout << "Out height = " << out.rows << endl;
 
-//    cv::imwrite("out.jpg", out);
+    cv::imwrite("out.jpg", out);
+    cv::imshow("origin", img);
     cv::imshow("sample", out);
     cout << "debug A..." << endl;
     cv::waitKey(0);
