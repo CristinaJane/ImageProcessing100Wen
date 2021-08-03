@@ -41,6 +41,24 @@ Mat BGR2GRAY(const Mat &img) {
     return out;
 }
 
+// answer_3: 将灰度图像二值化
+Mat Binary(const Mat &img, const int &thresh) {
+    int rows = img.rows;
+    int cols = img.cols;
+    Mat gray = BGR2GRAY(img);
+    Mat out = Mat::zeros(rows, cols, CV_8UC1);
+    for (int row = 0; row < rows; ++row) {
+        for (int col = 0; col < cols; ++col) {
+            if (gray.at<uchar>(row, col) <= thresh) {
+                out.at<uchar>(row, col) = 0;
+            } else {
+                out.at<uchar>(row, col) = 255;
+            }
+        }
+    }
+    return out;
+}
+
 int main(int argc, const char *argv[]) {
     // read image
     cv::Mat img = cv::imread("/Users/bessliuqian/Documents/liuqian的个人学习空间/ImageProcessing100Wen/assets/imori.jpg",
@@ -48,9 +66,9 @@ int main(int argc, const char *argv[]) {
     cout << "Img width = " << img.cols << endl;
     cout << "Img height = " << img.rows << endl;
 
-    // channel swap
-//    cv::Mat out = channel_swap(img);
-    Mat out = BGR2GRAY(img);
+//    Mat out = channel_swap(img);
+//    Mat out = BGR2GRAY(img);
+    Mat out = Binary(img, 128);
     cout << "Out width = " << out.cols << endl;
     cout << "Out height = " << out.rows << endl;
 
