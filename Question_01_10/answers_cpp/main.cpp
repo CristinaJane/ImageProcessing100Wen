@@ -59,6 +59,56 @@ Mat Binary(const Mat &img, const int &thresh) {
     return out;
 }
 
+// answer_4: 获取otsu最优阈值
+int GetOtsuThresh(const Mat &img) {
+    int rows = img.rows;
+    int cols = img.cols;
+    double w0 = 0, w1 = 0, m0 = 0, m1 = 0;
+    double max_sb = 0, sb = 0;
+    int thresh = 0;
+    int val = 0;
+
+    for (int temp = 0; temp < 255; ++temp) {
+        w0 = 0;
+        w1 = 0;
+        m0 = 0;
+        m1 = 0;
+        for (int row = 0; row < rows; ++row) {
+            for (int col = 0; col < cols; ++col) {
+                val = (int) img.at<uchar>(row, col);
+                if (val < temp) {
+                    ++w0;
+                    m0 += val;
+                } else {
+                    ++w1;
+                    m1 += val;
+                }
+            }
+        }
+        if (w0 > 0) {
+            m0 /= w0;
+        }
+        if (w1 > 0) {
+            m1 /= w1;
+        }
+        w0 = w0 / (rows * cols);
+        w1 = w1 / (rows * cols);
+        sb = w0 * w1 * pow((m0 - m1), 2);
+        if (sb > max_sb) {
+            max_sb = sb;
+            thresh = temp;
+        }
+    }
+    return thresh;
+}
+
+Mat Otsu(const Mat &img) {
+    int thresh = GetOtsuThresh(img);
+    cout << "thresh = " << thresh << endl;
+    Mat out = Binary(img, thresh);
+    return out;
+}
+
 int main(int argc, const char *argv[]) {
     // read image
     cv::Mat img = cv::imread("/Users/bessliuqian/Documents/liuqian的个人学习空间/ImageProcessing100Wen/assets/imori.jpg",
@@ -68,7 +118,8 @@ int main(int argc, const char *argv[]) {
 
 //    Mat out = channel_swap(img);
 //    Mat out = BGR2GRAY(img);
-    Mat out = Binary(img, 128);
+//    Mat out = Binary(img, 128);
+    Mat out = Otsu(img);
     cout << "Out width = " << out.cols << endl;
     cout << "Out height = " << out.rows << endl;
 
